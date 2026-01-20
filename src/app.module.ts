@@ -3,9 +3,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodosModule } from './modules/todo/todo.module';
 import { DbModule } from './database/db.module';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [TodosModule, DbModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    TodosModule,
+    DbModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

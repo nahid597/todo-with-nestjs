@@ -7,11 +7,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { TodosService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodoEntity } from './entities/todo.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('todos')
 export class TodosController {
@@ -35,6 +37,7 @@ export class TodosController {
     return this.todoService.updateTodo(id, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   removeTodo(@Param('id', ParseIntPipe) id: number): Promise<string | void> {
     return this.todoService.deleteTodo(id);
