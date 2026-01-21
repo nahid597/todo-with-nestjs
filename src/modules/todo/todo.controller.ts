@@ -14,14 +14,17 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodoEntity } from './entities/todo.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { GetUser } from 'src/common/decorators/user.decorator';
+import { TodoResponseDto } from './dto/todo-response.dto';
 
 @Controller('todos')
 export class TodosController {
   constructor(private readonly todoService: TodosService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getTodos(): Promise<TodoEntity[]> {
-    return this.todoService.findAll();
+  getTodos(@GetUser() user: any): Promise<TodoResponseDto[]> {
+    return this.todoService.findAll(user.userId);
   }
 
   @Post()

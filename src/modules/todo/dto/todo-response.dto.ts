@@ -3,4 +3,5 @@ export class TodoResponseDto {
   title: string;
   completed: boolean;
   createdAt?: Date;
+  userId: number;
 }
